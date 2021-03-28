@@ -1,0 +1,10 @@
+language: generic
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -e CI=true -t yenchenchou/docker-react:v1 -f Dockerfile.dev .
+
+script:
+  - docker run yenchenchou/docker-react:v1 npm run test -- --coverage
