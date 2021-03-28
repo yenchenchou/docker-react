@@ -7,4 +7,16 @@ before_install:
   - docker build -t yenchenchou/docker-react:v1 -f Dockerfile.dev .
 
 script:
-  - docker run yenchenchou/docker-react:v1 npm run test -- --coverage
+  - docker run -e CI=true yenchenchou/docker-react:v1 npm run test
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "docker-beanstalk"
+  env: "Dockerbeanstalk-env"
+  bucket_name: "elasticbeanstalk-us-east-2-458079482544"
+  bucket_path: "docker-beanstalk"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
